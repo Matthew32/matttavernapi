@@ -23,4 +23,4 @@ usersRouters.route('/users')
   .put(controllers.edit);
   usersRouters.route('/users/:id')
   .delete(controllers.remove);
-exports.routers = usersRouters;
+exports.routersUsers = usersRouters;

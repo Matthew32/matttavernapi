@@ -24,4 +24,4 @@ controllerRouters.route('/'+route)
   .put(controllers.edit);
   controllerRouters.route('/'+route+'/:id')
   .delete(controllers.remove);
-exports.routers = controllerRouters;
+exports.routersUsersRoles = controllerRouters;

@@ -17,5 +17,8 @@ indexRouter.route('/')
 .all(controllers.index);
 indexRouter.route('*')
 .all(controllers.error);
+indexRouter.route('/login')
+.post(controllers.login);
 
-exports.routers = indexRouter;
+
+exports.routersIndex = indexRouter;

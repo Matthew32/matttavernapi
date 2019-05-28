@@ -1,10 +1,11 @@
+
 /**
  * Module dependencies
  */
 var express = require('express'),
-    controllers = require('../controllers/usersroles');
+    controllers = require('../controllers/subcomments');
 
-var route = "usersroles";
+var route = "subcomments";
 /**
  * the new Router exposed in express 4
  * the indexRouter handles all requests to the `/` path
@@ -24,4 +25,4 @@ controllerRouters.route('/'+route)
   .put(controllers.edit);
   controllerRouters.route('/'+route+'/:id')
   .delete(controllers.remove);
-exports.routersUsersRoles = controllerRouters;
+exports.routersSubComments = controllerRouters;

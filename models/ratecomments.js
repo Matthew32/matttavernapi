@@ -8,16 +8,19 @@ modelSchema = new Schema(
     id: {
       type: String
     },
-    id_comment: {
-      type: String
-    },
     rate: {
       type: String
     },
+    comment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'comments'
+    },
   },
   {
-    versionKey: false // You should be aware of the outcome after set to false
+    versionKey: false, // You should be aware of the outcome after set to false
+    timestamps: true
+
   }
 );
 
-module.exports = mongoose.model("rate_comments", modelSchema);
+module.exports = mongoose.model("ratecomments", modelSchema);

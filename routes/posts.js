@@ -1,10 +1,11 @@
+
 /**
  * Module dependencies
  */
 var express = require('express'),
-    controllers = require('../controllers/usersmeta');
+    controllers = require('../controllers/posts');
 
-var route = "usersmeta";
+var route = "posts";
 /**
  * the new Router exposed in express 4
  * the indexRouter handles all requests to the `/` path
@@ -24,4 +25,4 @@ controllerRouters.route('/'+route)
   .put(controllers.edit);
   controllerRouters.route('/'+route+'/:id')
   .delete(controllers.remove);
-exports.routersUsersMeta = controllerRouters;
+exports.routersPosts = controllerRouters;

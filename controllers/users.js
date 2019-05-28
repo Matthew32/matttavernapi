@@ -16,18 +16,14 @@ exports.filter = function (req , res ){
    } );
 };
 exports.create = function (req , res ){
-  var usersInfo = req.body;
-  //validation here
-  var userObject = new users({
-    id_hourstypes:req.body.id_hourstypes
-  });
-  userObject.save(function(err, user){
+  model.create(req.body, function (error, valid) {
     if(err)
       res.json("error");
     else
       res.json(user);
   });
 }
+
 exports.edit = function (req , res ){
   users.findByIdAndUpdate(req.params.id, req.body, function(err, response){
     if(err) res.json({message: "Error in updating person with id " + req.params.id});

@@ -13,12 +13,21 @@ modelSchema = new Schema({
   subtitle: {
     type:String
   },
-  id_user: {
+  content: {
     type:String
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
+  },
+  comments: {
+    type : Schema.Types.ObjectId,
+    ref: 'comments'
   },
 
 }, {
-  versionKey: false // You should be aware of the outcome after set to false
+  versionKey: false, // You should be aware of the outcome after set to false
+  timestamps: true
 });
 
 module.exports = mongoose.model('posts', modelSchema);

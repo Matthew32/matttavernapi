@@ -4,7 +4,7 @@ var config = {
       port: 3000,
     },
     database: {
-      url: 'mongodb://localhost/horariodiario'
+      url: 'mongodb://localhost/matttavernblog'
     }
   },
   testing: {
@@ -12,7 +12,7 @@ var config = {
       port: 3001
     },
     database: {
-      url: 'mongodb://localhost/horariodiario'
+      url: 'mongodb://localhost/matttavernblog'
     }
   },
   production: {
@@ -20,7 +20,7 @@ var config = {
       port: 8080
     },
     database: {
-      url: 'mongodb://localhost/horariodiario'
+      url: 'mongodb://localhost/matttavernblog'
     }
   }
 };

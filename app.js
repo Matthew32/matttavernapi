@@ -1,59 +1,61 @@
 /**
  * Module dependencies.
  */
+const dotenv = require('dotenv');
+dotenv.config();
 
-var express = require("express"),
-  path = require("path"),
-  mongoose = require("mongoose"),
-  logger = require("morgan"),
-  bodyParser = require("body-parser"),
-  compress = require("compression"),
-  favicon = require("static-favicon"),
-  methodOverride = require("method-override"),
-  errorHandler = require("errorhandler"),
-  config = require("./config"),
+var express        = require('express'),
+    mongoose       = require('mongoose'),
+    logger         = require('morgan'),
+    bodyParser     = require('body-parser'),
+    compress       = require('compression'),
+    methodOverride = require('method-override'),
+    errorHandler   = require('errorhandler'),
+    config         = require('./config'),
   routeIndex = require("./routes/index"),
-  routePermissions = require("./routes/permissions"),
+  routeComments = require("./routes/comments"),
+  routePosts = require("./routes/posts"),
+  routeRateComments = require("./routes/ratecomments"),
   routeRoles = require("./routes/roles"),
-  routeRolesPermissions = require("./routes/rolespermissions"),
+  routeSubComments = require("./routes/subcomments"),
   routeUsers = require("./routes/users"),
-  routeUsersMeta = require("./routes/usersmeta"),
-  routeUsersRoles = require("./routes/usersroles"),
-
+  middleextraInfo = require('./middlewares/extrainfo'),
+  authorizationToken = require('./middlewares/authorizationToken'),
   expressJwt = require("express-jwt");
 
 var jwtClave = "matttavernnopassword";
 
-mongoose.connect(config.database.url);
-mongoose.connection.on("error", function() {
-  console.log("mongodb connection error");
+mongoose.connect(config.database.url, { useMongoClient: true });
+mongoose.connection.on('error', function () {
+  console.log('mongodb connection error');
 });
+
+var cors = require('cors');
+
 
 var app = express();
 
 /**
  * Express configuration.
  */
-app.set("port", config.server.port);
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set('port', process.env.PORT);
 
-app
-  .use(compress())
-  .use(favicon())
-  .use(logger("dev"))
-  .use(bodyParser())
-  .use(methodOverride())
-  .use(expressJwt({ secret: jwtClave }).unless({ path: ["/login"] }))
+  app.use(compress())
+  app.use(logger('dev'))
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(methodOverride())
+
+  app.use(authorizationToken.ensureAuthenticated)
+  app.use(middleextraInfo.dataUser)
+  .use(routeComments.routersComments)
   .use(routeIndex.routersIndex)
-  .use(routePermissions.routersPermissions)
+  .use(routePosts.routersPosts)
+  .use(routeRateComments.routersRateComments)
   .use(routeRoles.routersRoles)
-  .use(routeRolesPermissions.routersRolesPermissions)
+  .use(routeSubComments.routersSubComments)
   .use(routeUsers.routersUsers)
-  .use(routeUsersMeta.routersUsersMeta)
-  .use(routeUsersRoles.routersUsersRoles)
-  .use(express.static(path.join(__dirname, "public")))
-  .use(function(req, res) {
+   .use(function(req, res) {
     res.status(404).render("404", { title: "Not Found :(" });
   });
 

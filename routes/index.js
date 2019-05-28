@@ -15,8 +15,6 @@ var indexRouter = express.Router();
  */
 indexRouter.route('/')
 .all(controllers.index);
-indexRouter.route('*')
-.all(controllers.error);
 indexRouter.route('/login')
 .post(controllers.login);
 

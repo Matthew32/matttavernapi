@@ -11,32 +11,39 @@ exports.error = function (req, res) {
 };
 
 
-exports.login = function(req,res){
+exports.login = function (req, res) {
 
   var users = require('../models/users');
-  users.findOne({ 'username': req.params.username,'password':req.params.password }, function (err, user) {
-   
-    if(err){
-      res.json({message: "not found " + req.params.id});
-    }else{
-      if (req.body.username==user.username || req.body.password==user.password) {
-        if (!user.validPassword(req.body.password)) {
-          res.json({message: "password is not valid" });
+  users.findOne({ 'email': req.body.email, validado: true }, ['password', 'email', 'avatar']).populate('role').exec(function (err, user) {
+    if (err || !user) {
+      return res.status(404).json({ message: " user not found " });
+    } else {
+      if (req.body.email == user.email) {
+        if (!user.validPassword(req.body.password, user.password)) {
+          return res.status(402).json({ error: "password is not valid" });
 
         } else {
           // password matched. proceed forward
-        
-        var token=jwt.sign({
-        user:user.id
-              },jwtClave);
+          token = exports.newToken(user.id);
 
-              res.json({token});
-            }
-       }else {
+          refresh_token = exports.newRefreshToken(user.id);
 
-        res.json({message: "user not found" });
-       }
+          delete user.password;
+
+          console.log(user);
+
+          return res.json({
+            access_token: token,
+            refresh_token: refresh_token,
+            user: user
+          });
+        }
+      } else {
+
+        return res.json({ message: "user not found" });
+      }
 
     }
-  } )
+  })
 };
+

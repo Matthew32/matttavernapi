@@ -1,10 +1,11 @@
+
 /**
  * Module dependencies
  */
 var express = require('express'),
-    controllers = require('../controllers/rolespermissions');
+    controllers = require('../controllers/comments');
 
-var route = "rolespermissions";
+var route = "comments";
 /**
  * the new Router exposed in express 4
  * the indexRouter handles all requests to the `/` path
@@ -24,4 +25,4 @@ controllerRouters.route('/'+route)
   .put(controllers.edit);
   controllerRouters.route('/'+route+'/:id')
   .delete(controllers.remove);
-exports.routersRolesPermissions = controllerRouters;
+exports.routersComments = controllerRouters;

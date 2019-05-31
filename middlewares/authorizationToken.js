@@ -2,9 +2,10 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var jwt = require('jsonwebtoken');
-var unless = ["/login", "/signup", "/sendPasswordResetLink", "/resetPassword", "/refresh", "/validar"];
+var unless = ["/login", "/signup", "/sendPasswordResetLink", "/resetPassword", "/refresh", "/validar","/posts","/posts/5cf046f1688d16627c27763f"];
 
 exports.ensureAuthenticated = function (req, res, next) {
+  console.log(unless.indexOf(req.originalUrl));
   if (unless.indexOf(req.originalUrl) < 0) {
     if (!req.headers.authorization) {
       return res

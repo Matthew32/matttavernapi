@@ -34,12 +34,11 @@ var cors = require('cors');
 
 
 var app = express();
-
+app.use(cors())
 /**
  * Express configuration.
  */
 app.set('port', process.env.PORT);
-
   app.use(compress())
   app.use(logger('dev'))
   app.use(bodyParser.urlencoded({ extended: true }));

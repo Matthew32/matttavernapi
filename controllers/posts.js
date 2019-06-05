@@ -5,12 +5,16 @@
 var model = require('../models/posts');
 
 exports.list = function (req, res) {
-    model.find(function(err, response){
+    model.find().
+    populate('user').
+    exec(function(err, response){
     res.json(response);
  });
 }
 exports.filter = function (req , res ){
-    model.findById(req.params.id, function (err, post) {
+    model.findById(req.params.id).
+    populate('user').
+    exec( function (err, post) {
     if(err) res.json({message: "not found " + req.params.id});
     else res.json({post});
    } );
